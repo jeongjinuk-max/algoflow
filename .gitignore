@@ -1,0 +1,12 @@
+# IDE & editor
+.agents/
+.gemini/
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Misc
+*.log
