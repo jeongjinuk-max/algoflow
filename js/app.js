@@ -26,11 +26,113 @@
     let navigatingFromPopstate = false;
     const V = () => window.Visualizations || {};
 
-    function init() {
-        // Hide SEO crawlable content — Google sees it, users see the app
-        const seoEl = document.getElementById('seo-content');
-        if (seoEl) seoEl.style.display = 'none';
+    // Algorithm Theory Descriptions for AdSense Compliance
+    const algoDescriptions = {
+        'stack': {
+            title: 'Stack (LIFO)',
+            description: 'A stack is a linear data structure that follows the Last In, First Out (LIFO) principle. Elements can only be added or removed from the top of the stack.',
+            timeComplexity: 'Push: O(1), Pop: O(1), Peek: O(1)',
+            spaceComplexity: 'O(n)'
+        },
+        'queue': {
+            title: 'Queue (FIFO)',
+            description: 'A queue is a linear data structure that follows the First In, First Out (FIFO) principle. Elements are added at the rear and removed from the front.',
+            timeComplexity: 'Enqueue: O(1), Dequeue: O(1)',
+            spaceComplexity: 'O(n)'
+        },
+        'array': {
+            title: 'Array',
+            description: 'An array is a collection of items stored at contiguous memory locations. The idea is to store multiple items of the same type together.',
+            timeComplexity: 'Access: O(1), Search: O(n), Insertion: O(n), Deletion: O(n)',
+            spaceComplexity: 'O(n)'
+        },
+        'linkedlist': {
+            title: 'Linked List',
+            description: 'A linked list is a linear data structure, in which the elements are not stored at contiguous memory locations. The elements in a linked list are linked using pointers.',
+            timeComplexity: 'Access: O(n), Search: O(n), Insertion: O(1), Deletion: O(1)',
+            spaceComplexity: 'O(n)'
+        },
+        'hashtable': {
+            title: 'Hash Table',
+            description: 'A Hash Table is a data structure which stores data in an associative manner. In a hash table, data is stored in an array format, where each data value has its own unique index value.',
+            timeComplexity: 'Search: O(1) avg / O(n) worst, Insertion: O(1) avg / O(n) worst, Deletion: O(1) avg / O(n) worst',
+            spaceComplexity: 'O(n)'
+        },
+        'heap': {
+            title: 'Heap / Priority Queue',
+            description: 'A Heap is a special Tree-based data structure in which the tree is a complete binary tree. Generally, Heaps can be of two types: Max-Heap and Min-Heap.',
+            timeComplexity: 'Insertion: O(log n), Deletion: O(log n), Peek: O(1)',
+            spaceComplexity: 'O(n)'
+        },
+        'bst': {
+            title: 'Binary Search Tree (BST)',
+            description: 'A Binary Search Tree is a node-based binary tree data structure which has the following properties: The left subtree of a node contains only nodes with keys lesser than the node’s key. The right subtree of a node contains only nodes with keys greater than the node’s key.',
+            timeComplexity: 'Search: O(log n), Insertion: O(log n), Deletion: O(log n)',
+            spaceComplexity: 'O(n)'
+        },
+        'bubblesort': {
+            title: 'Bubble Sort',
+            description: 'Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order.',
+            timeComplexity: 'Best: O(n), Average: O(n^2), Worst: O(n^2)',
+            spaceComplexity: 'O(1)'
+        },
+        'mergesort': {
+            title: 'Merge Sort',
+            description: 'Merge Sort is a Divide and Conquer algorithm. It divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.',
+            timeComplexity: 'Best: O(n log n), Average: O(n log n), Worst: O(n log n)',
+            spaceComplexity: 'O(n)'
+        },
+        'quicksort': {
+            title: 'Quick Sort',
+            description: 'QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array around the picked pivot.',
+            timeComplexity: 'Best: O(n log n), Average: O(n log n), Worst: O(n^2)',
+            spaceComplexity: 'O(log n)'
+        },
+        'binarysearch': {
+            title: 'Binary Search',
+            description: 'Binary Search is a searching algorithm used in a sorted array by repeatedly dividing the search interval in half.',
+            timeComplexity: 'Best: O(1), Average: O(log n), Worst: O(log n)',
+            spaceComplexity: 'O(1)'
+        },
+        'bfs': {
+            title: 'Breadth-First Search (BFS)',
+            description: 'Breadth-First Search (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root and explores all nodes at the present depth prior to moving on to the nodes at the next depth level.',
+            timeComplexity: 'O(V + E) where V is vertices and E is edges',
+            spaceComplexity: 'O(V)'
+        },
+        'dfs': {
+            title: 'Depth-First Search (DFS)',
+            description: 'Depth-first search (DFS) is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node and explores as far as possible along each branch before backtracking.',
+            timeComplexity: 'O(V + E) where V is vertices and E is edges',
+            spaceComplexity: 'O(V)'
+        },
+        'dijkstra': {
+            title: 'Dijkstra\'s Algorithm',
+            description: 'Dijkstra\'s algorithm is an algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.',
+            timeComplexity: 'O((V + E) log V) with min-priority queue',
+            spaceComplexity: 'O(V)'
+        },
+        'greedy': {
+            title: 'Greedy Algorithm',
+            description: 'A greedy algorithm is any algorithm that follows the problem-solving heuristic of making the locally optimal choice at each stage with the intent of finding a global optimum.',
+            timeComplexity: 'Varies based on problem (Often O(n log n))',
+            spaceComplexity: 'Varies based on problem'
+        },
+        'dp': {
+            title: 'Dynamic Programming (DP)',
+            description: 'Dynamic Programming is mainly an optimization over plain recursion. Wherever we see a recursive solution that has repeated calls for same inputs, we can optimize it using Dynamic Programming.',
+            timeComplexity: 'Varies based on problem (Often polynomial)',
+            spaceComplexity: 'Varies based on problem'
+        },
+        'twopointer': {
+            title: 'Two Pointer Technique',
+            description: 'Two pointers is really an easy and effective technique that is typically used for searching pairs in a sorted array.',
+            timeComplexity: 'O(n)',
+            spaceComplexity: 'O(1)'
+        }
+    };
 
+    function init() {
         buildNav();
 
         // Logo click → landing page
@@ -143,9 +245,44 @@
                 </div>
             </div>
 
+            <!-- SEO Content (Exposed for AdSense and Search Engines) -->
+            <article id="seo-content" class="mt-12 pt-8 border-t border-slate-800/50 pb-12 text-slate-300 leading-relaxed text-sm">
+                <h2 class="text-2xl font-bold mb-4 text-white">AlgoFlow — Interactive Data Structure & Algorithm Visualization Platform</h2>
+                <p class="mb-6">A free interactive web platform for learning <strong>17 essential data structures and algorithms</strong> through step-by-step visualizations and real-time animation simulations.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-bold text-white mb-3 bg-primary/10 inline-block px-3 py-1 rounded text-primary">Data Structures</h3>
+                        <ul class="space-y-2">
+                            <li><strong>Stack:</strong> LIFO Data Structure</li>
+                            <li><strong>Queue:</strong> FIFO Data Structure</li>
+                            <li><strong>Array:</strong> Contiguous memory storage</li>
+                            <li><strong>Linked List:</strong> Nodes and pointers</li>
+                            <li><strong>Hash Table:</strong> Key-value pair storage</li>
+                            <li><strong>Heap:</strong> Complete binary tree for priority queue</li>
+                            <li><strong>BST:</strong> Binary Search Tree</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white mb-3 bg-cyan-400/10 inline-block px-3 py-1 rounded text-cyan-400">Algorithms</h3>
+                        <ul class="space-y-2">
+                            <li><strong>Bubble Sort, Merge Sort, Quick Sort:</strong> Sorting algorithms</li>
+                            <li><strong>Binary Search:</strong> O(log n) search</li>
+                            <li><strong>BFS & DFS:</strong> Graph traversal</li>
+                            <li><strong>Dijkstra's Algorithm:</strong> Shortest path</li>
+                            <li><strong>Greedy & DP:</strong> Optimization algorithms</li>
+                            <li><strong>Two Pointer:</strong> Array traversal technique</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
             <!-- Footer -->
-            <div class="text-center py-8 border-t border-slate-800/50">
-                <p class="text-xs text-slate-500">AlgoFlow — Interactive Data Structure & Algorithm Visualization Platform</p>
+            <div class="text-center py-8">
+                <p class="text-sm text-slate-500 mb-2">AlgoFlow — Interactive Data Structure & Algorithm Visualization Platform</p>
+                <div class="flex justify-center gap-4 text-xs">
+                    <a href="privacy.html" class="text-slate-400 hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="mailto:jin20628@gmail.com" class="text-slate-400 hover:text-primary transition-colors">Contact</a>
+                </div>
             </div>
         </div>`;
 
@@ -224,10 +361,25 @@
         if (!vis) return;
         const c = document.getElementById('main-content');
         c.innerHTML = `
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-extrabold text-white tracking-tight">${vis.info.title}</h2>
+            ${algoDescriptions[currentId] ? `
+            <button onclick="document.getElementById('theory-panel').classList.toggle('hidden')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm transition-colors border border-slate-700 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">info</span>
+                Learn Theory
+            </button>` : ''}
+        </div>
+
+        ${algoDescriptions[currentId] ? `
+        <div id="theory-panel" class="w-full mb-6 bg-slate-800/40 border border-slate-700/50 rounded-xl p-6 hidden">
+            <h3 class="text-xl font-bold text-white mb-3">Understanding ${algoDescriptions[currentId].title}</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">${algoDescriptions[currentId].description}</p>
+        </div>` : ''}
+
         <div class="grid grid-cols-1 gap-6 mb-8">
             <div class="glass p-6 rounded-xl border-l-4 border-l-primary">
                 <div class="flex justify-between items-start mb-4">
-                    <div><h2 class="text-lg font-bold">${vis.info.title}</h2><p class="text-sm text-slate-400">${vis.info.subtitle}</p></div>
+                    <div><h2 class="text-lg font-bold text-white">${vis.info.title}</h2><p class="text-sm text-slate-400">${vis.info.subtitle}</p></div>
                     <span class="px-2 py-1 bg-primary/10 text-primary text-xs font-bold rounded uppercase">${vis.info.type}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-4">

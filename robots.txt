@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://jeongjinuk-max.github.io/algoflow/sitemap.xml
+Sitemap: https://web-first-steps-jin206.web.app/sitemap.xml
